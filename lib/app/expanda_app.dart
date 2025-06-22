@@ -1,5 +1,6 @@
 import 'package:expanda/app/app_state_provider.dart';
 import 'package:expanda/app/config/config.dart';
+import 'package:expanda/features/permission/permissions_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,6 +18,8 @@ class ExpandaAppState extends ConsumerState<ExpandaApp>
     super.initState();
 
     WidgetsBinding.instance.addObserver(this);
+
+    ref.read(permissionsProvider.notifier).checkPermissions();
   }
 
   @override
@@ -29,6 +32,9 @@ class ExpandaAppState extends ConsumerState<ExpandaApp>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     ref.read(appStateProvider.notifier).state = state;
     super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      ref.read(permissionsProvider.notifier).checkPermissions();
+    }
   }
 
   @override
