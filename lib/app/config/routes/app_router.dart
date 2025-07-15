@@ -1,3 +1,4 @@
+import 'package:expanda/features/auth/auth_page.dart';
 import 'package:expanda/features/home/home_page.dart';
 import 'package:expanda/features/map/controlled_map_page.dart';
 import 'package:expanda/features/map/location_page.dart';
@@ -22,5 +23,7 @@ final router = GoRouter(
       path: '/controlled-map',
       builder: (context, state) => ControlledMapPage(),
     ),
+
+    GoRoute(path: '/auth', builder: (context, state) => AuthPage()),
   ],
 );

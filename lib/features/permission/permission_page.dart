@@ -19,7 +19,7 @@ class PermissionPage extends StatelessWidget {
 }
 
 class PermissionView extends ConsumerWidget {
-  PermissionView({super.key});
+  const PermissionView({super.key});
 
   @override
   Widget build(BuildContext context, ref) {
