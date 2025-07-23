@@ -1,10 +1,10 @@
-import 'package:expanda/domain/entities/user_response.dart';
+import 'package:expanda/domain/entities/user_model.dart';
 
 abstract class AuthRepository {
-  Future<UserResponse> register(String email, String password);
-  Future<UserResponse> login(String email, String password);
-  Future<UserResponse> signInWithGoogle();
+  Future<UserModel> register(String email, String password);
+  Future<UserModel> login(String email, String password);
+  Future<UserModel> signInWithGoogle();
   Future<void> logout();
-  Future<UserResponse?> getCurrentUser();
-  Stream<UserResponse?> get authStateChanges;
+  Future<UserModel?> getCurrentUser();
+  Stream<UserModel?> get authStateChanges;
 }
