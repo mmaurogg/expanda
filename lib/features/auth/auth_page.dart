@@ -1,6 +1,7 @@
 import 'package:expanda/features/auth/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -22,16 +23,26 @@ class AuthView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final auth = ref.watch(authProvider);
+    final authState = ref.watch(authProvider);
 
     return Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (auth.email != null) Text('Welcome, ${auth.email}'),
+          if (authState.isLoading) const CircularProgressIndicator(),
+
+          if (authState.isAuthenticated)
+            Text('Welcome, ${authState.user?.email ?? 'no email'}'),
+
+          if (!authState.isAuthenticated)
+            const Text('Please log in or register'),
+
+          if ((authState.error ?? '').isNotEmpty)
+            Text('Error: ${authState.error}'),
+
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               ref
                   .read(authProvider.notifier)
                   .login('test@example.com', 'password123');
@@ -45,6 +56,13 @@ class AuthView extends ConsumerWidget {
                   .register('test@example.com', 'password123');
             },
             child: const Text('Register'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              ref.read(authProvider.notifier).logout();
+              context.go('/login');
+            },
+            child: const Text('logout'),
           ),
         ],
       ),

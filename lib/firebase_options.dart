@@ -32,13 +32,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyCXAtJpD0IqlNpMXwY4Oacq8E1D3eDaOSE',
-    appId: '1:808793774900:web:3e1642e9a278af4071a361',
+    appId: '1:808793774900:web:3286b55b1488a00871a361',
     messagingSenderId: '808793774900',
     projectId: 'base-app-6d46e',
     authDomain: 'base-app-6d46e.firebaseapp.com',
     databaseURL: 'https://base-app-6d46e-default-rtdb.firebaseio.com',
     storageBucket: 'base-app-6d46e.firebasestorage.app',
-    measurementId: 'G-6JHYFG2BEX',
+    measurementId: 'G-J4L44DC8VG',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
@@ -57,6 +57,8 @@ class DefaultFirebaseOptions {
     projectId: 'base-app-6d46e',
     databaseURL: 'https://base-app-6d46e-default-rtdb.firebaseio.com',
     storageBucket: 'base-app-6d46e.firebasestorage.app',
+    androidClientId: '808793774900-ldeb9gd95vs3b2gofo241eobuejtjvsp.apps.googleusercontent.com',
+    iosClientId: '808793774900-mqkdc8h8vrle87lurjlo6ul864eh173n.apps.googleusercontent.com',
     iosBundleId: 'com.example.expanda',
   );
 
@@ -67,6 +69,8 @@ class DefaultFirebaseOptions {
     projectId: 'base-app-6d46e',
     databaseURL: 'https://base-app-6d46e-default-rtdb.firebaseio.com',
     storageBucket: 'base-app-6d46e.firebasestorage.app',
+    androidClientId: '808793774900-ldeb9gd95vs3b2gofo241eobuejtjvsp.apps.googleusercontent.com',
+    iosClientId: '808793774900-mqkdc8h8vrle87lurjlo6ul864eh173n.apps.googleusercontent.com',
     iosBundleId: 'com.example.expanda',
   );
 
@@ -80,4 +84,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'base-app-6d46e.firebasestorage.app',
     measurementId: 'G-J4L44DC8VG',
   );
+
 }
