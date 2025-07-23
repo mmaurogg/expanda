@@ -1,4 +1,4 @@
-import 'package:expanda/features/auth/auth_provider.dart';
+import 'package:expanda/presentation/features/auth/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

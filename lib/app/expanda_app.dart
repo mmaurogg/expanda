@@ -1,6 +1,6 @@
 import 'package:expanda/app/app_state_provider.dart';
 import 'package:expanda/app/config/config.dart';
-import 'package:expanda/features/permission/permissions_provider.dart';
+import 'package:expanda/presentation/features/permission/permissions_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

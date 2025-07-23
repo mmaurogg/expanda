@@ -41,6 +41,8 @@ dependencies:
 
   dio: ^5.8.0+1
 
+  intl: ^0.20.2
+
   geolocator: ^14.0.1
   google_maps_flutter: ^2.12.3
   google_fonts: ^6.2.1  

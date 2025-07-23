@@ -1,5 +1,5 @@
-import 'package:expanda/features/auth/auth_form.dart';
-import 'package:expanda/features/auth/widgets/google_sig_in_button.dart';
+import 'package:expanda/presentation/features/auth/auth_form.dart';
+import 'package:expanda/presentation/features/auth/widgets/google_sig_in_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
