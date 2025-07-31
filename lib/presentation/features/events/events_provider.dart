@@ -11,6 +11,31 @@ final eventsProvider = StateNotifierProvider<EventsNotifier, EventsState>((
   return EventsNotifier(eventsUseCase);
 });
 
+final eventsStreamProvider = StreamProvider<List<EventModel>>((ref) {
+  final eventsUseCase = ref.read(eventUseCaseProvider);
+  return eventsUseCase.getEventsStream().map(
+    (responses) =>
+        responses
+            .map(
+              (response) => EventModel(
+                id: response.id,
+                title: response.title,
+                description: response.description,
+                scheduledDate: response.scheduledDate,
+                instructorId: response.instructorId,
+                instructorName: response.instructorName,
+                maxCapacity: response.maxCapacity,
+                currentEnrollments: response.currentEnrollments,
+                price: response.price,
+                isActive: response.isActive,
+                createdAt: response.createdAt,
+                updatedAt: response.updatedAt,
+              ),
+            )
+            .toList(),
+  );
+});
+
 class EventsNotifier extends StateNotifier<EventsState> {
   final EventsUseCase _eventsUseCase;
 

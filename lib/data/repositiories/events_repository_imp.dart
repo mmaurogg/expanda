@@ -63,4 +63,9 @@ class EventsRepositoryImpl implements EventsRepository {
   Future<EventModel> unenrollFromEvent(String eventId) async {
     return await _remoteDataSource.unenrollFromEvent(eventId);
   }
+
+  @override
+  Stream<List<EventModel>> getEventsStream() {
+    return _remoteDataSource.getEventsStream();
+  }
 }

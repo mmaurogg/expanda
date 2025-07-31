@@ -1,11 +1,10 @@
 import 'package:expanda/domain/entities/event_model.dart';
+import 'package:expanda/presentation/features/auth/auth_provider.dart';
 import 'package:expanda/presentation/features/events/events_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-
-import '../../../../../app/config/theme/app_theme.dart';
 
 class CreateEventPage extends ConsumerStatefulWidget {
   const CreateEventPage({super.key});
@@ -234,7 +233,10 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
 
               // Switch de activo
               SwitchListTile(
-                title: const Text('Evento activo'),
+                title:
+                    _isActive
+                        ? const Text('Evento activo')
+                        : const Text('Evento inactivo'),
                 subtitle: Text(
                   _isActive
                       ? 'El evento estará disponible para inscripciones'
@@ -352,6 +354,8 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
   }
 
   void _createEvent() {
+    final userState = ref.watch(authProvider);
+
     if (_formKey.currentState!.validate()) {
       // Combinar fecha y hora
       final scheduledDateTime = DateTime(
@@ -363,11 +367,11 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
       );
 
       final eventEntity = EventModel(
-        id: '', // Se genera en el backend
+        //id: '', // Se genera en el backend
         title: _titleController.text.trim(),
         description: _descriptionController.text.trim(),
         scheduledDate: scheduledDateTime,
-        instructorId: 'current_user_id', // TODO: Obtener del usuario actual
+        instructorId: userState.user?.id ?? '',
         instructorName: _instructorNameController.text.trim(),
         maxCapacity: int.parse(_maxCapacityController.text),
         currentEnrollments: 0,

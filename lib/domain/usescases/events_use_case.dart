@@ -52,4 +52,8 @@ class EventsUseCase {
   Future<EventModel> unenrollFromEvent(String eventId) async {
     return await _repository.unenrollFromEvent(eventId);
   }
+
+  Stream<List<EventModel>> getEventsStream() {
+    return _repository.getEventsStream();
+  }
 }

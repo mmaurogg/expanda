@@ -13,4 +13,5 @@ abstract class EventsRepository {
   Future<void> deleteEvent(String id);
   Future<EventModel> enrollInEvent(String eventId);
   Future<EventModel> unenrollFromEvent(String eventId);
+  Stream<List<EventModel>> getEventsStream();
 }

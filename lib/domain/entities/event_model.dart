@@ -1,5 +1,5 @@
 class EventModel {
-  final String id;
+  final String? id;
   final String title;
   final String description;
   final DateTime scheduledDate;
@@ -13,7 +13,7 @@ class EventModel {
   final DateTime updatedAt;
 
   const EventModel({
-    required this.id,
+    this.id,
     required this.title,
     required this.description,
     required this.scheduledDate,
