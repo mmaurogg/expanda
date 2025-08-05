@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:expanda/features/permission/permissions_provider.dart';
+import 'package:expanda/presentation/features/permission/permissions_provider.dart';
 
 class PermissionPage extends StatelessWidget {
   const PermissionPage({super.key});

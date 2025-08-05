@@ -19,6 +19,7 @@ Al crear una nueva funcionalidad, sigue esta estructura de directorios dentro de
     * **Entidades (`entities/`):** Define los objetos de negocio puros. Si se requiere inmutabilidad usa`copyWith`.
     * **Repositorios (`repositories/`):** Define la interfaz (clase abstracta) del repositorio.
         * Los métodos deben devolver `Future<TipoDeDato>`. `Failure` es una clase base definida en `lib/core/errors/failures.dart`.
+    * **Casos de uso (`usecases/`):** Implementa la logica de de los casos de uso.
 
 2.  **Capa `data` (`lib/data/`)**
     * **Modelos (`models/`):** Crea modelos que extienden las entidades del dominio y añaden la lógica de serialización (`fromJson`, `toJson`) 

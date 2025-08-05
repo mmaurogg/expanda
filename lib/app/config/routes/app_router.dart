@@ -1,10 +1,12 @@
-import 'package:expanda/features/auth/auth_page.dart';
-import 'package:expanda/features/auth/login_page.dart';
-import 'package:expanda/features/home/home_page.dart';
-import 'package:expanda/features/map/controlled_map_page.dart';
-import 'package:expanda/features/map/location_page.dart';
-import 'package:expanda/features/map/map_page.dart';
-import 'package:expanda/features/permission/permission_page.dart';
+import 'package:expanda/presentation/features/events/clases_page.dart';
+import 'package:expanda/presentation/features/auth/auth_page.dart';
+import 'package:expanda/presentation/features/auth/login_page.dart';
+import 'package:expanda/presentation/features/events/create_event_page.dart';
+import 'package:expanda/presentation/features/home/home_page.dart';
+import 'package:expanda/presentation/features/map/controlled_map_page.dart';
+import 'package:expanda/presentation/features/map/location_page.dart';
+import 'package:expanda/presentation/features/map/map_page.dart';
+import 'package:expanda/presentation/features/permission/permission_page.dart';
 import 'package:go_router/go_router.dart';
 
 final router = GoRouter(
@@ -29,5 +31,13 @@ final router = GoRouter(
     ),
 
     GoRoute(path: '/auth', builder: (context, state) => AuthPage()),
+
+    GoRoute(
+      path: '/events',
+      builder: (context, state) => ClassesPage(),
+      routes: [
+        GoRoute(path: 'create', builder: (context, state) => CreateEventPage()),
+      ],
+    ),
   ],
 );

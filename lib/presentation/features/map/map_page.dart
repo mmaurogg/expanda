@@ -1,4 +1,4 @@
-import 'package:expanda/features/map/user_location_provider.dart';
+import 'package:expanda/presentation/features/map/user_location_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

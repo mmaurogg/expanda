@@ -9,6 +9,7 @@ class HomePage extends StatelessWidget {
     MenuItem('Mapas', Icons.map_outlined, '/map'),
     MenuItem('Mapa-Control', Icons.gamepad_outlined, '/controlled-map'),
     MenuItem('Auth', Icons.people, '/auth'),
+    MenuItem('Clases', Icons.school, '/events'),
   ];
 
   @override

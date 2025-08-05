@@ -1,13 +1,33 @@
-import 'package:expanda/domain/entities/user_response.dart';
-import 'package:expanda/domain/repositories/auth_repository.dart';
+import 'package:expanda/data/models/user_response.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class AuthRepositoryImpl implements AuthRepository {
+final firebaseAuthProvider = Provider<FirebaseAuth>(
+  (ref) => FirebaseAuth.instance,
+);
+final googleSignInProvider = Provider<GoogleSignIn>((ref) => GoogleSignIn());
+
+final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>((ref) {
+  final firebaseAuth = ref.read(firebaseAuthProvider);
+  final googleSignIn = ref.read(googleSignInProvider);
+  return AuthRemoteDataSourceImpl(firebaseAuth, googleSignIn);
+});
+
+abstract class AuthRemoteDataSource {
+  Future<UserResponse> login(String email, String password);
+  Future<UserResponse> register(String email, String password);
+  Future<UserResponse> signInWithGoogle();
+  Future<void> logout();
+  Future<UserResponse?> getCurrentUser();
+  Stream<UserResponse?> get authStateChanges;
+}
+
+class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
 
-  AuthRepositoryImpl(this._firebaseAuth, this._googleSignIn);
+  AuthRemoteDataSourceImpl(this._firebaseAuth, this._googleSignIn);
 
   @override
   Future<UserResponse> register(String email, String password) async {

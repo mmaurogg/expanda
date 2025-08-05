@@ -1,75 +1,22 @@
-import 'package:expanda/data/datasources/auth_api_source.dart';
-import 'package:expanda/data/models/user_model.dart';
-import 'package:expanda/domain/entities/user_response.dart';
+import 'package:expanda/domain/entities/user_model.dart';
+import 'package:expanda/domain/usescases/auth_use_case.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:expanda/domain/repositories/auth_repository.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-
-/* final firebaseAuthProvider = Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);
-
-final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  final firebaseAuth = ref.read(firebaseAuthProvider);
-  return AuthRepositoryImpl(firebaseAuth);
-}); */
-
-/* final authProvider = StateNotifierProvider<AuthNotifier, UserModel>(
-  (ref) => AuthNotifier(),
-);
-
-class AuthNotifier extends StateNotifier<UserModel> {
-  AuthNotifier() : super(UserModel(id: '', email: ''));
-
-  final AuthRepository _authRepository = AuthRepositoryImpl(
-    FirebaseAuth.instance,
-  );
-
-  Future<void> register(String email, String password) async {
-    final userResponse = await _authRepository.register(email, password);
-    state = UserModel(id: userResponse.id, email: userResponse.email);
-  }
-
-  Future<void> login(String email, String password) async {
-    final userResponse = await _authRepository.login(email, password);
-    state = UserModel(id: userResponse.id, email: userResponse.email);
-  }
-
-  Future<void> logout() async {
-    await _authRepository.logout();
-    state = UserModel(id: '', email: '');
-  }
-}
- */
-
-final firebaseAuthProvider = Provider<FirebaseAuth>(
-  (ref) => FirebaseAuth.instance,
-);
-
-final googleSignInProvider = Provider<GoogleSignIn>(
-  //(ref) => GoogleSignIn.instance,
-  (ref) => GoogleSignIn(),
-);
-
-final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  final firebaseAuth = ref.read(firebaseAuthProvider);
-  final googleSignIn = ref.read(googleSignInProvider);
-  return AuthRepositoryImpl(firebaseAuth, googleSignIn);
-});
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
-  final authRepository = ref.read(authRepositoryProvider);
-  return AuthNotifier(authRepository);
+  final authUseCase = ref.read(authUseCaseProvider);
+  return AuthNotifier(authUseCase);
 });
 
 class AuthNotifier extends StateNotifier<AuthState> {
-  final AuthRepository _authRepository;
+  final AuthUseCase _authUseCase;
 
-  AuthNotifier(this._authRepository) : super(AuthState.initial()) {
+  AuthNotifier(this._authUseCase) : super(AuthState.initial()) {
     _init();
   }
 
   void _init() {
-    _authRepository.authStateChanges.listen((user) {
+    _authUseCase.authStateChanges.listen((user) {
       if (user != null) {
         state = AuthState.authenticated(user);
       } else {
@@ -81,7 +28,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   Future<void> register(String email, String password) async {
     state = AuthState.loading();
     try {
-      final user = await _authRepository.register(email, password);
+      final user = await _authUseCase.register(email, password);
       state = AuthState.authenticated(user);
     } catch (e) {
       state = AuthState.error(_getErrorMessage(e));
@@ -91,7 +38,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   Future<void> signInWithGoogle() async {
     state = AuthState.loading();
     try {
-      final user = await _authRepository.signInWithGoogle();
+      final user = await _authUseCase.signInWithGoogle();
       state = AuthState.authenticated(user);
     } catch (e) {
       state = AuthState.error(_getErrorMessage(e));
@@ -101,7 +48,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   Future<void> login(String email, String password) async {
     state = AuthState.loading();
     try {
-      final user = await _authRepository.login(email, password);
+      final user = await _authUseCase.login(email, password);
       state = AuthState.authenticated(user);
     } catch (e) {
       state = AuthState.error(_getErrorMessage(e));
@@ -111,7 +58,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   Future<void> logout() async {
     state = AuthState.loading();
     try {
-      await _authRepository.logout();
+      await _authUseCase.logout();
       state = AuthState.unauthenticated();
     } catch (e) {
       state = AuthState.error(_getErrorMessage(e));
@@ -145,7 +92,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
 class AuthState {
   final bool isLoading;
-  final UserResponse? user;
+  final UserModel? user;
   final String? error;
   final bool isAuthenticated;
 
@@ -160,7 +107,7 @@ class AuthState {
 
   factory AuthState.loading() => const AuthState._(isLoading: true);
 
-  factory AuthState.authenticated(UserResponse user) =>
+  factory AuthState.authenticated(UserModel user) =>
       AuthState._(user: user, isAuthenticated: true);
 
   factory AuthState.unauthenticated() =>
@@ -170,7 +117,7 @@ class AuthState {
 
   AuthState copyWith({
     bool? isLoading,
-    UserResponse? user,
+    UserModel? user,
     String? error,
     bool? isAuthenticated,
   }) {
