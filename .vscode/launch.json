@@ -5,18 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "expanda",
+            "name": "expanda-Debug",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "flutterMode": "debug"
         },
         {
-            "name": "expanda (profile mode)",
+            "name": "expanda-Profile mode",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "expanda (release mode)",
+            "name": "expanda-Release",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
