@@ -1,9 +1,15 @@
+import 'package:expanda/presentation/features/events/clases_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final menuItems = <MenuItem>[
     MenuItem('Ubicación', Icons.pin_drop, '/location'),
     MenuItem('Mapas', Icons.map_outlined, '/map'),
@@ -11,6 +17,8 @@ class HomePage extends StatelessWidget {
     MenuItem('Auth', Icons.people, '/auth'),
     MenuItem('Clases', Icons.school, '/events'),
   ];
+
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -26,29 +34,46 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          child: CustomScrollView(
-            slivers: [
-              SliverGrid.count(
-                crossAxisCount: 3,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                children:
-                    menuItems
-                        .map(
-                          (item) => HomeMenuItem(
-                            title: item.title,
-                            route: item.route,
-                            icon: item.icon,
-                          ),
-                        )
-                        .toList(),
-              ),
-            ],
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: [
+          Center(child: ClassesPage()),
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: CustomScrollView(
+              slivers: [
+                SliverGrid.count(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  children:
+                      menuItems
+                          .map(
+                            (item) => HomeMenuItem(
+                              title: item.title,
+                              route: item.route,
+                              icon: item.icon,
+                            ),
+                          )
+                          .toList(),
+                ),
+              ],
+            ),
           ),
-        ),
+        ],
+      ),
+
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Funciones'),
+        ],
       ),
     );
   }
