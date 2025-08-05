@@ -46,65 +46,6 @@ class EventsRemoteDataSourceImpl implements EventsRemoteDataSource {
         data['id'] = doc.id; // Add the document ID to the data
         return EventResponse.fromJson(data);
       }).toList();
-
-      /* return [
-        EventResponse(
-          id: "1",
-          title: "Título de la clase 1",
-          description: "Descripción de la clase 1",
-          scheduledDate: DateTime.now(),
-          instructorId: "1",
-          instructorName: "Nombre del instructor 1",
-          maxCapacity: 30,
-          currentEnrollments: 10,
-          price: 100,
-          isActive: true,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-        ),
-        EventResponse(
-          id: "2",
-          title: "Título de la clase 2",
-          description: "Descripción de la clase 2",
-          scheduledDate: DateTime.now().add(Duration(days: 1)),
-          instructorId: "2",
-          instructorName: "Nombre del instructor 2",
-          maxCapacity: 20,
-          currentEnrollments: 5,
-          price: 150,
-          isActive: true,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-        ),
-        EventResponse(
-          id: "3",
-          title: "Título de la clase 3",
-          description: "Descripción de la clase 3",
-          scheduledDate: DateTime.now().add(Duration(days: 2)),
-          instructorId: "3",
-          instructorName: "Nombre del instructor 3",
-          maxCapacity: 25,
-          currentEnrollments: 15,
-          price: 200,
-          isActive: true,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-        ),
-        EventResponse(
-          id: "4",
-          title: "Título de la clase 4",
-          description: "Descripción de la clase 4",
-          scheduledDate: DateTime.now().add(Duration(days: 3)),
-          instructorId: "4",
-          instructorName: "Nombre del instructor 4",
-          maxCapacity: 30,
-          currentEnrollments: 20,
-          price: 250,
-          isActive: true,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-        ),
-      ]; */
     } catch (e) {
       throw Exception('Error al obtener eventos: ${e.toString()}');
     }
