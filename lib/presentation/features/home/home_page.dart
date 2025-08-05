@@ -37,7 +37,8 @@ class _HomePageState extends State<HomePage> {
       body: IndexedStack(
         index: _selectedIndex,
         children: [
-          Center(child: ClassesPage()),
+          ClassesPage(),
+
           Container(
             padding: const EdgeInsets.all(10),
             child: CustomScrollView(
