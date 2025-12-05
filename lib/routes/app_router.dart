@@ -1,5 +1,5 @@
 import 'package:expanda/presentation/features/auth/registry_page.dart';
-import 'package:expanda/presentation/features/events/clases_page.dart';
+import 'package:expanda/presentation/features/events/events_page.dart';
 import 'package:expanda/presentation/features/auth/auth_page.dart';
 import 'package:expanda/presentation/features/auth/login_page.dart';
 import 'package:expanda/presentation/features/events/create_event_page.dart';
@@ -11,11 +11,14 @@ import 'package:expanda/presentation/features/permission/permission_page.dart';
 import 'package:go_router/go_router.dart';
 
 final router = GoRouter(
-  initialLocation: '/login',
+  initialLocation: LoginPage.routeName,
   routes: [
-    GoRoute(path: '/', builder: (context, state) => HomePage()),
+    GoRoute(path: HomePage.routeName, builder: (context, state) => HomePage()),
 
-    GoRoute(path: '/login', builder: (context, state) => LoginPage()),
+    GoRoute(
+      path: LoginPage.routeName,
+      builder: (context, state) => LoginPage(),
+    ),
 
     GoRoute(path: AuthPage.routeName, builder: (context, state) => AuthPage()),
 
@@ -25,10 +28,13 @@ final router = GoRouter(
     ),
 
     GoRoute(
-      path: '/events',
-      builder: (context, state) => ClassesPage(),
+      path: EventsPage.routeName,
+      builder: (context, state) => EventsPage(),
       routes: [
-        GoRoute(path: 'create', builder: (context, state) => CreateEventPage()),
+        GoRoute(
+          path: CreateEventPage.routeName,
+          builder: (context, state) => CreateEventPage(),
+        ),
       ],
     ),
 

@@ -1,20 +1,23 @@
-import 'package:expanda/presentation/features/events/events_state.dart';
+import 'package:expanda/presentation/features/events/create_event_page.dart';
+import 'package:expanda/presentation/features/events/events_page_state.dart';
 import 'package:expanda/presentation/features/events/widgets/class_card.dart';
 import 'package:expanda/presentation/features/events/widgets/date_selector.dart';
+import 'package:expanda/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'events_provider.dart';
 
-class ClassesPage extends ConsumerStatefulWidget {
-  const ClassesPage({super.key});
+class EventsPage extends ConsumerStatefulWidget {
+  static const String routeName = '/events';
+  const EventsPage({super.key});
 
   @override
-  ConsumerState<ClassesPage> createState() => _ClassesPageState();
+  ConsumerState<EventsPage> createState() => _EventsPageState();
 }
 
-class _ClassesPageState extends ConsumerState<ClassesPage> {
+class _EventsPageState extends ConsumerState<EventsPage> {
   @override
   void initState() {
     super.initState();
@@ -29,29 +32,67 @@ class _ClassesPageState extends ConsumerState<ClassesPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Clases'),
+        title: const Text('Eventos'),
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
         actions: [
           IconButton(
-            onPressed: () => context.push('/events/create'),
+            onPressed:
+                () => context.push(
+                  '${EventsPage.routeName}${CreateEventPage.routeName}',
+                ),
             icon: const Icon(Icons.add),
           ),
         ],
       ),
       body: Column(
         children: [
-          // Selector de fecha
+          /* // Selector de fecha
           const DateSelector(),
 
           // Lista de clases
-          Expanded(child: _buildClassesList(classesState)),
+          Expanded(child: _buildClassesList(classesState)), */
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: CustomButton(
+              onPressed: () {
+                context.push(
+                  '${EventsPage.routeName}${CreateEventPage.routeName}',
+                );
+              },
+              text: 'Crear Evento',
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: CustomButton(
+              onPressed: () {
+                /* context.push(
+                  '${EventsPage.routeName}${CreateEventPage.routeName}',
+                ); */
+              },
+              text: 'Listar clases creadas por mí',
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: CustomButton(
+              onPressed: () {
+                /* context.push(
+                  '${EventsPage.routeName}${CreateEventPage.routeName}',
+                ); */
+              },
+              text: 'Listar clases inscritas (proximamente)',
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildClassesList(EventsState state) {
+  Widget _buildClassesList(EventsPageState state) {
     if (state.isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -107,7 +148,10 @@ class _ClassesPageState extends ConsumerState<ClassesPage> {
             ),
             const SizedBox(height: 16),
             ElevatedButton.icon(
-              onPressed: () => context.push('/classes/create'),
+              onPressed:
+                  () => context.push(
+                    '${EventsPage.routeName}${CreateEventPage.routeName}',
+                  ),
               icon: const Icon(Icons.add),
               label: const Text('Crear Clase'),
             ),
@@ -122,10 +166,11 @@ class _ClassesPageState extends ConsumerState<ClassesPage> {
         padding: const EdgeInsets.all(16),
         itemCount: state.events.length,
         itemBuilder: (context, index) {
-          final EventModel = state.events[index];
+          final eventModel = state.events[index];
           return ClassCard(
-            eventModel: EventModel,
-            onTap: () => context.push('/classes/${EventModel.id}'),
+            eventModel: eventModel,
+            onTap:
+                () => context.push('${EventsPage.routeName}${eventModel.id}'),
           );
         },
       ),

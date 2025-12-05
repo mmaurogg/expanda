@@ -10,6 +10,7 @@ class CustomTextFormField extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.obscureText = false,
+    this.maxLines = 1,
   });
 
   final String label;
@@ -19,6 +20,7 @@ class CustomTextFormField extends StatelessWidget {
   final Icon? prefixIcon;
   final IconButton? suffixIcon;
   final bool obscureText;
+  final int maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class CustomTextFormField extends StatelessWidget {
         filled: true,
         fillColor: Colors.grey[50],
       ),
-
+      maxLines: maxLines,
       validator: validator,
     );
   }

@@ -1,10 +1,12 @@
 import 'package:expanda/data/models/user_response.dart';
 import 'package:expanda/domain/entities/user_model.dart';
 import 'package:expanda/presentation/features/auth/auth_provider.dart';
+import 'package:expanda/presentation/features/auth/login_page.dart';
 import 'package:expanda/presentation/widgets/custom_button.dart';
 import 'package:expanda/presentation/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class RegistryPage extends StatelessWidget {
   static const String routeName = '/registry';
@@ -121,6 +123,7 @@ class _RegistryFormState extends ConsumerState<RegistryForm> {
 
           const SizedBox(height: 16),
 
+          // Toggle estudiante/profesor
           Row(
             children: [
               Expanded(
@@ -155,31 +158,32 @@ class _RegistryFormState extends ConsumerState<RegistryForm> {
           const SizedBox(height: 16),
 
           // Campo de contraseña
-          CustomTextFormField(
-            controller: _passwordController,
-            obscureText: _obscurePassword,
-            label: 'Contraseña',
-            prefixIcon: const Icon(Icons.lock_outline),
-            suffixIcon: IconButton(
-              icon: Icon(
-                _obscurePassword ? Icons.visibility : Icons.visibility_off,
+          if (true)
+            CustomTextFormField(
+              controller: _passwordController,
+              obscureText: _obscurePassword,
+              label: 'Contraseña',
+              prefixIcon: const Icon(Icons.lock_outline),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _obscurePassword = !_obscurePassword;
+                  });
+                },
               ),
-              onPressed: () {
-                setState(() {
-                  _obscurePassword = !_obscurePassword;
-                });
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Por favor ingresa tu contraseña';
+                }
+                if (value.length < 6) {
+                  return 'La contraseña debe tener al menos 6 caracteres';
+                }
+                return null;
               },
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Por favor ingresa tu contraseña';
-              }
-              if (value.length < 6) {
-                return 'La contraseña debe tener al menos 6 caracteres';
-              }
-              return null;
-            },
-          ),
 
           const SizedBox(height: 24),
 
@@ -202,7 +206,8 @@ class _RegistryFormState extends ConsumerState<RegistryForm> {
               ),
               TextButton(
                 onPressed: () {
-                  //ref.read(authProvider.notifier).clearError();
+                  ref.read(authProvider.notifier).clearError();
+                  context.pushReplacement(LoginPage.routeName);
                 },
                 child: Text(
                   'Inicia sesión',

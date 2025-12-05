@@ -1,6 +1,8 @@
 import 'package:expanda/presentation/features/auth/auth_provider.dart';
+import 'package:expanda/presentation/features/auth/registry_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class AuthForm extends ConsumerStatefulWidget {
   const AuthForm({super.key});
@@ -142,10 +144,12 @@ class _AuthFormState extends ConsumerState<AuthForm> {
               ),
               TextButton(
                 onPressed: () {
-                  setState(() {
+                  /* setState(() {
                     _isLogin = !_isLogin;
                   });
-                  ref.read(authProvider.notifier).clearError();
+                  ref.read(authProvider.notifier).clearError(); */
+
+                  context.pushReplacement(RegistryPage.routeName);
                 },
                 child: Text(
                   _isLogin ? 'Regístrate' : 'Inicia sesión',
@@ -163,8 +167,6 @@ class _AuthFormState extends ConsumerState<AuthForm> {
   }
 
   void _submit() {
-    ref.read(authProvider.notifier).login('test@example.com', 'password123');
-
     if (_formKey.currentState!.validate()) {
       final email = _emailController.text.trim();
       final password = _passwordController.text.trim();

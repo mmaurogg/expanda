@@ -1,13 +1,13 @@
 import 'package:expanda/domain/entities/event_model.dart';
 
-class EventsState {
+class EventsPageState {
   final bool isLoading;
   final List<EventModel> events;
   final String? error;
   final DateTime? selectedDate;
   final EventModel? selectedEvent;
 
-  const EventsState._({
+  const EventsPageState._({
     this.isLoading = false,
     this.events = const [],
     this.error,
@@ -15,23 +15,24 @@ class EventsState {
     this.selectedEvent,
   });
 
-  factory EventsState.initial() => const EventsState._();
+  factory EventsPageState.initial() => const EventsPageState._();
 
-  factory EventsState.loading() => const EventsState._(isLoading: true);
+  factory EventsPageState.loading() => const EventsPageState._(isLoading: true);
 
-  factory EventsState.loaded(List<EventModel> events) =>
-      EventsState._(events: events);
+  factory EventsPageState.loaded(List<EventModel> events) =>
+      EventsPageState._(events: events);
 
-  factory EventsState.error(String error) => EventsState._(error: error);
+  factory EventsPageState.error(String error) =>
+      EventsPageState._(error: error);
 
-  EventsState copyWith({
+  EventsPageState copyWith({
     bool? isLoading,
     List<EventModel>? events,
     String? error,
     DateTime? selectedDate,
     EventModel? selectedEvent,
   }) {
-    return EventsState._(
+    return EventsPageState._(
       isLoading: isLoading ?? this.isLoading,
       events: events ?? this.events,
       error: error ?? this.error,

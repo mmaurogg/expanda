@@ -1,6 +1,7 @@
 import 'package:expanda/presentation/features/auth/auth_form.dart';
 import 'package:expanda/presentation/features/auth/registry_page.dart';
 import 'package:expanda/presentation/features/auth/widgets/google_sig_in_button.dart';
+import 'package:expanda/presentation/features/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -18,7 +19,7 @@ class LoginPage extends StatelessWidget {
         title: const Text('Authentication'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-      body: const LoginView(),
+      body: LoginView(),
     );
   }
 }
@@ -32,12 +33,12 @@ class LoginView extends ConsumerWidget {
 
     ref.listen(authProvider, (previous, next) {
       if (next.isAuthenticated) {
-        context.go('/');
+        context.go(HomePage.routeName);
       }
     });
 
     return Padding(
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.all(0.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -103,12 +104,18 @@ class LoginView extends ConsumerWidget {
             // Botones de email/password
             ElevatedButton(
               onPressed: () {
-                //context.push('/');
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder:
-                        (context) =>
-                            Scaffold(appBar: AppBar(), body: const AuthForm()),
+                        (context) => Scaffold(
+                          appBar: AppBar(),
+                          body: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(24.0),
+                              child: const AuthForm(),
+                            ),
+                          ),
+                        ),
                   ),
                 );
               },

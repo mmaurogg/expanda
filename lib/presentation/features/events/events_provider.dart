@@ -1,10 +1,10 @@
 import 'package:expanda/domain/entities/event_model.dart';
 import 'package:expanda/domain/usescases/events_use_case.dart';
-import 'package:expanda/presentation/features/events/events_state.dart';
+import 'package:expanda/presentation/features/events/events_page_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Provider principal de eventos
-final eventsProvider = StateNotifierProvider<EventsNotifier, EventsState>((
+final eventsProvider = StateNotifierProvider<EventsNotifier, EventsPageState>((
   ref,
 ) {
   final eventsUseCase = ref.read(eventUseCaseProvider);
@@ -36,18 +36,18 @@ final eventsStreamProvider = StreamProvider<List<EventModel>>((ref) {
   );
 });
 
-class EventsNotifier extends StateNotifier<EventsState> {
+class EventsNotifier extends StateNotifier<EventsPageState> {
   final EventsUseCase _eventsUseCase;
 
-  EventsNotifier(this._eventsUseCase) : super(EventsState.initial());
+  EventsNotifier(this._eventsUseCase) : super(EventsPageState.initial());
 
   Future<void> loadEvents() async {
-    state = EventsState.loading();
+    state = EventsPageState.loading();
     try {
       final events = await _eventsUseCase.getEvents();
-      state = EventsState.loaded(events);
+      state = EventsPageState.loaded(events);
     } catch (e) {
-      state = EventsState.error(e.toString());
+      state = EventsPageState.error(e.toString());
     }
   }
 
@@ -65,22 +65,21 @@ class EventsNotifier extends StateNotifier<EventsState> {
     DateTime startDate,
     DateTime endDate,
   ) async {
-    state = EventsState.loading();
+    state = EventsPageState.loading();
     try {
       final events = await _eventsUseCase.getEventsByDateRange(
         startDate,
         endDate,
       );
-      state = EventsState.loaded(events);
+      state = EventsPageState.loaded(events);
     } catch (e) {
-      state = EventsState.error(e.toString());
+      state = EventsPageState.error(e.toString());
     }
   }
 
   Future<void> createEvent(EventModel eventModel) async {
     state = state.copyWith(isLoading: true);
     try {
-      
       final newEvent = await _eventsUseCase.createEvent(eventModel);
       final updatedEvents = [...state.events, newEvent];
       state = state.copyWith(
@@ -155,8 +154,8 @@ class EventsNotifier extends StateNotifier<EventsState> {
     }
   }
 
-  void selectEvent(EventModel EventModel) {
-    state = state.copyWith(selectedEvent: EventModel);
+  void selectEvent(EventModel eventModel) {
+    state = state.copyWith(selectedEvent: eventModel);
   }
 
   void clearSelection() {

@@ -1,10 +1,11 @@
 import 'package:expanda/domain/entities/user_model.dart';
 import 'package:expanda/presentation/features/auth/registry_page.dart';
-import 'package:expanda/presentation/features/events/clases_page.dart';
+import 'package:expanda/presentation/features/events/events_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
+  static const String routeName = '/';
   const HomePage({super.key});
 
   @override
@@ -15,7 +16,8 @@ class _HomePageState extends State<HomePage> {
   final menuItems = <MenuItem>[
     MenuItem('Registro', Icons.person_add, RegistryPage.routeName),
     MenuItem('Auth', Icons.people, '/auth'),
-    MenuItem('Clases', Icons.school, '/events'),
+
+    MenuItem('Eventos', Icons.calendar_month, EventsPage.routeName),
 
     MenuItem('Ubicación', Icons.pin_drop, '/location'),
     MenuItem('Mapas', Icons.map_outlined, '/map'),
@@ -41,7 +43,7 @@ class _HomePageState extends State<HomePage> {
       body: IndexedStack(
         index: _selectedIndex,
         children: [
-          ClassesPage(),
+          EventsPage(),
 
           Container(
             padding: const EdgeInsets.all(10),
