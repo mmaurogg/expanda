@@ -36,7 +36,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       password: password,
     );
     final user = userCredential.user!;
-    return UserResponse(id: user.uid, email: user.email ?? '');
+    return UserResponse(sessionId: user.uid, email: user.email ?? '');
   }
 
   @override
@@ -46,7 +46,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       password: password,
     );
     final user = userCredential.user!;
-    return UserResponse(id: user.uid, email: user.email ?? '');
+    //TODO: aca debe hacer la consulta en BD y filtrar por el sessionId
+    return UserResponse(sessionId: user.uid, email: user.email ?? '');
   }
 
   /* Future<void> _handleAuthenticationEvent(
@@ -122,8 +123,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           .signInWithCredential(credential);
       final User user = userCredential.user!;
 
+      //TODO: aca debe hacer la consulta en BD y filtrar por el sessionId
       return UserResponse(
-        id: user.uid,
+        sessionId: user.uid,
         email: user.email ?? '',
         name: user.displayName,
       );
@@ -143,8 +145,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final user = _firebaseAuth.currentUser;
     if (user == null) return null;
 
+    //TODO: aca debe hacer la consulta en BD y filtrar por el sessionId
     return UserResponse(
-      id: user.uid,
+      sessionId: user.uid,
       email: user.email ?? '',
       name: user.displayName,
     );
@@ -154,8 +157,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Stream<UserResponse?> get authStateChanges {
     return _firebaseAuth.authStateChanges().map((user) {
       if (user == null) return null;
+      //TODO: aca debe hacer la consulta en BD y filtrar por el sessionId
       return UserResponse(
-        id: user.uid,
+        sessionId: user.uid,
         email: user.email ?? '',
         name: user.displayName,
       );

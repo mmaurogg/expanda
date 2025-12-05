@@ -1,17 +1,22 @@
+import 'package:expanda/data/models/user_response.dart';
 import 'package:expanda/domain/entities/user_model.dart';
 import 'package:expanda/domain/usescases/auth_use_case.dart';
+import 'package:expanda/domain/usescases/user_use_case.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   final authUseCase = ref.read(authUseCaseProvider);
-  return AuthNotifier(authUseCase);
+  final userUseCase = ref.read(userUseCaseProvider);
+  return AuthNotifier(authUseCase, userUseCase);
 });
 
 class AuthNotifier extends StateNotifier<AuthState> {
   final AuthUseCase _authUseCase;
+  final UserUseCase _userUseCase;
 
-  AuthNotifier(this._authUseCase) : super(AuthState.initial()) {
+  AuthNotifier(this._authUseCase, this._userUseCase)
+    : super(AuthState.initial()) {
     _init();
   }
 
@@ -25,12 +30,18 @@ class AuthNotifier extends StateNotifier<AuthState> {
     });
   }
 
-  Future<void> register(String email, String password) async {
+  Future<void> register(UserResponse newUser, String password) async {
     state = AuthState.loading();
     try {
-      final user = await _authUseCase.register(email, password);
+      final userAuth = await _authUseCase.register(newUser.email, password);
+
+      final user = newUser.copyWith(sessionId: userAuth.sessionId);
+
+      await _userUseCase.saveUser(user);
+
       state = AuthState.authenticated(user);
     } catch (e) {
+      print(e);
       state = AuthState.error(_getErrorMessage(e));
     }
   }
@@ -41,6 +52,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
       final user = await _authUseCase.signInWithGoogle();
       state = AuthState.authenticated(user);
     } catch (e) {
+      print(e);
+
       state = AuthState.error(_getErrorMessage(e));
     }
   }
@@ -51,6 +64,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
       final user = await _authUseCase.login(email, password);
       state = AuthState.authenticated(user);
     } catch (e) {
+      print(e);
+
       state = AuthState.error(_getErrorMessage(e));
     }
   }
@@ -61,6 +76,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
       await _authUseCase.logout();
       state = AuthState.unauthenticated();
     } catch (e) {
+      print(e);
+
       state = AuthState.error(_getErrorMessage(e));
     }
   }

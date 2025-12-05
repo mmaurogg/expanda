@@ -1,9 +1,11 @@
+import 'package:expanda/domain/entities/user_model.dart';
+import 'package:expanda/presentation/features/auth/registry_page.dart';
 import 'package:expanda/presentation/features/events/clases_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -11,14 +13,16 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final menuItems = <MenuItem>[
+    MenuItem('Registro', Icons.person_add, RegistryPage.routeName),
+    MenuItem('Auth', Icons.people, '/auth'),
+    MenuItem('Clases', Icons.school, '/events'),
+
     MenuItem('Ubicación', Icons.pin_drop, '/location'),
     MenuItem('Mapas', Icons.map_outlined, '/map'),
     MenuItem('Mapa-Control', Icons.gamepad_outlined, '/controlled-map'),
-    MenuItem('Auth', Icons.people, '/auth'),
-    MenuItem('Clases', Icons.school, '/events'),
   ];
 
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +47,15 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.all(10),
             child: CustomScrollView(
               slivers: [
+                SliverToBoxAdapter(
+                  child: IconButton(
+                    onPressed: () {
+                      print(Role.user.value);
+                    },
+                    icon: Icon(Icons.logout),
+                  ),
+                ),
+
                 SliverGrid.count(
                   crossAxisCount: 3,
                   crossAxisSpacing: 10,

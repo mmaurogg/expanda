@@ -80,6 +80,7 @@ class EventsNotifier extends StateNotifier<EventsState> {
   Future<void> createEvent(EventModel eventModel) async {
     state = state.copyWith(isLoading: true);
     try {
+      
       final newEvent = await _eventsUseCase.createEvent(eventModel);
       final updatedEvents = [...state.events, newEvent];
       state = state.copyWith(

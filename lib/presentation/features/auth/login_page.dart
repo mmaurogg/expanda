@@ -1,4 +1,5 @@
 import 'package:expanda/presentation/features/auth/auth_form.dart';
+import 'package:expanda/presentation/features/auth/registry_page.dart';
 import 'package:expanda/presentation/features/auth/widgets/google_sig_in_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'auth_provider.dart';
 
 class LoginPage extends StatelessWidget {
+  static const String routeName = '/login';
   const LoginPage({super.key});
 
   @override
@@ -117,9 +119,7 @@ class LoginView extends ConsumerWidget {
 
             ElevatedButton(
               onPressed: () {
-                ref
-                    .read(authProvider.notifier)
-                    .register('test@example.com', 'password123');
+                context.push(RegistryPage.routeName);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.secondary,

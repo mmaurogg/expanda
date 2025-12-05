@@ -1,9 +1,13 @@
+import 'package:expanda/presentation/features/auth/login_page.dart';
+import 'package:expanda/presentation/features/auth/registry_page.dart';
 import 'package:expanda/presentation/features/auth/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class AuthPage extends StatelessWidget {
+  static const String routeName = '/auth';
+
   const AuthPage({super.key});
 
   @override
@@ -43,24 +47,20 @@ class AuthView extends ConsumerWidget {
 
           ElevatedButton(
             onPressed: () async {
-              ref
-                  .read(authProvider.notifier)
-                  .login('test@example.com', 'password123');
+              context.push(LoginPage.routeName);
             },
             child: const Text('Login'),
           ),
           ElevatedButton(
             onPressed: () {
-              ref
-                  .read(authProvider.notifier)
-                  .register('test@example.com', 'password123');
+              context.push(RegistryPage.routeName);
             },
             child: const Text('Register'),
           ),
           ElevatedButton(
             onPressed: () {
               ref.read(authProvider.notifier).logout();
-              context.go('/login');
+              context.go(LoginPage.routeName);
             },
             child: const Text('logout'),
           ),

@@ -1,3 +1,4 @@
+import 'package:expanda/presentation/features/auth/registry_page.dart';
 import 'package:expanda/presentation/features/events/clases_page.dart';
 import 'package:expanda/presentation/features/auth/auth_page.dart';
 import 'package:expanda/presentation/features/auth/login_page.dart';
@@ -16,6 +17,21 @@ final router = GoRouter(
 
     GoRoute(path: '/login', builder: (context, state) => LoginPage()),
 
+    GoRoute(path: AuthPage.routeName, builder: (context, state) => AuthPage()),
+
+    GoRoute(
+      path: RegistryPage.routeName,
+      builder: (context, state) => RegistryPage(),
+    ),
+
+    GoRoute(
+      path: '/events',
+      builder: (context, state) => ClassesPage(),
+      routes: [
+        GoRoute(path: 'create', builder: (context, state) => CreateEventPage()),
+      ],
+    ),
+
     GoRoute(
       path: '/permissions',
       builder: (context, state) => PermissionPage(),
@@ -28,16 +44,6 @@ final router = GoRouter(
     GoRoute(
       path: '/controlled-map',
       builder: (context, state) => ControlledMapPage(),
-    ),
-
-    GoRoute(path: '/auth', builder: (context, state) => AuthPage()),
-
-    GoRoute(
-      path: '/events',
-      builder: (context, state) => ClassesPage(),
-      routes: [
-        GoRoute(path: 'create', builder: (context, state) => CreateEventPage()),
-      ],
     ),
   ],
 );

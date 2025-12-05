@@ -172,7 +172,7 @@ class _AuthFormState extends ConsumerState<AuthForm> {
       if (_isLogin) {
         ref.read(authProvider.notifier).login(email, password);
       } else {
-        ref.read(authProvider.notifier).register(email, password);
+        //ref.read(authProvider.notifier).register(email, password);
       }
     }
   }
